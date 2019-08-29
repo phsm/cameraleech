@@ -1,0 +1,6 @@
+LogLevel = "info"
+
+[cameras]
+    [cameras.cam1]
+    storagePath = ""
+    url = ""

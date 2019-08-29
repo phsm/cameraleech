@@ -1,0 +1,15 @@
+LogLevel = "info"
+httpListenAddress = "127.0.0.1:8080"
+
+[defaults]
+ffmpegPath = "/usr/bin/ffmpeg"
+storagePath = "/home/stas/cameraleech"
+segmentTime = 600
+FfmpegLogLevel = "repeat+level+error"
+
+[cameras]
+    [cameras.cam1]
+	url = "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov?rtsp_transport=tcp&timeout=60"
+	
+    [cameras.cam2]
+	url = "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov?rtsp_transport=tcp&timeout=60"
