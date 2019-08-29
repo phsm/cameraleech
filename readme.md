@@ -11,7 +11,7 @@ In a nutshell, its nothing but a smart ffmpeg launcher
 The idea behind of cameraleech is simple: read the config with camera names and URLs, launch ffmpeg process per camera, restart if it crashes and collect its statistics.
 For convenience, records are stored in segments (1 hour length by default)
 
-Each camera record is stored in "storagePath/<cameraname>/<YYYY-MM-DD>/<segment start time>.mkv"
+Each camera record is stored in "storagePath/_cameraname_/_YYYY-MM-DD_/_segment start time_.mkv"
 
 Tested on Linux. Work on other OSes isn't guaranteed.
 
