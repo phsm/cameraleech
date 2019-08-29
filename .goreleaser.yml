@@ -7,31 +7,33 @@ before:
     - go mod tidy
     # you may remove this if you don't need go generate
 builds:
-- binary: cameraleech
-- id: release
-- main: main.go
-- env:
-  - CGO_ENABLED=0
-- goos:
-  - linux
-- goarch:
-  - amd64
-- ldflags:
-  - -X main.commit={{.ShortCommit}} -X main.builtat={{.Date}}
+-
+  binary: cameraleech
+  id: cameraleech
+  main: .
+  env:
+    - CGO_ENABLED=0
+  goos:
+    - linux
+  goarch:
+    - amd64
+  ldflags:
+    - -X main.commit={{.ShortCommit}} -X main.builtat={{.Date}}
 archives:
-- replacements:
+-
+  replacements:
     linux: Linux
     amd64: x86_64
-- files:
-  - readme.md
-  - LICENSE
-  - cameraleech.service
-  - zabbix/*
-  - config.toml
+  files:
+    - readme.md
+    - LICENSE
+    - cameraleech.service
+    - zabbix/*
+    - config.toml
 checksum:
   name_template: 'checksums.txt'
 snapshot:
-  name_template: "{{ .Tag }}-next"
+  name_template: "{{ .Tag }}"
 changelog:
   sort: asc
   filters:
