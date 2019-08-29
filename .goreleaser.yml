@@ -1,0 +1,42 @@
+# This is an example goreleaser.yaml file with some sane defaults.
+# Make sure to check the documentation at http://goreleaser.com
+project_name: cameraleech
+before:
+  hooks:
+    # you may remove this if you don't use vgo
+    - go mod tidy
+    # you may remove this if you don't need go generate
+builds:
+-
+  binary: cameraleech
+  id: cameraleech
+  main: .
+  env:
+    - CGO_ENABLED=0
+  goos:
+    - linux
+  goarch:
+    - amd64
+  ldflags:
+    - -X main.commit={{.ShortCommit}} -X main.builtat={{.Date}}
+archives:
+-
+  replacements:
+    linux: Linux
+    amd64: x86_64
+  files:
+    - readme.md
+    - LICENSE
+    - cameraleech.service
+    - zabbix/*
+    - config.toml
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'

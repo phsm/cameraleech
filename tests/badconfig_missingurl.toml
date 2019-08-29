@@ -1,0 +1,12 @@
+LogLevel = "info"
+
+[defaults]
+storagePath = "/home/stas/cameraleech"
+FfmpegLogLevel = "repeat+level+error"
+
+[cameras]
+    [cameras.cam1]
+	url = "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov?rtsp_transport=tcp&timeout=60"
+	
+    [cameras.cam2]
+    url = ""

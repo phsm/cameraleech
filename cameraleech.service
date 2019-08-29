@@ -1,0 +1,13 @@
+[Unit]
+Description=Cameraleech ffmpeg starter
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/cameraleech
+ExecReload=/bin/kill -s HUP $MAINPID
+TimeoutStopSec=300
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

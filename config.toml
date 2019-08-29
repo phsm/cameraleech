@@ -1,0 +1,66 @@
+# Program log verbosity level:
+# fatal
+# error
+# warn
+# info
+# debug
+# Default - warn
+LogLevel = "info"
+
+# The program performs some simple OS configuration checks on the start, giving you hints about the performance.
+DisableHints = false
+
+# Address + port to listen HTTP statistics interface on.
+httpListenAddress = "127.0.0.1:8080"
+
+# Available monitoring URLs:
+# /cameras.json - returns json with camera names. Is needed to Zabbix low-level discovery
+
+# The following URLs are updated approximately every 30 seconds. {name} - camera name
+# /camera/{name}/frame - returns the last frame number, is convenient to check if the videostream is live.
+#                        Non-increasing number indicates the stream to be stuck.
+# /camera/{name}/fps - average frame-rate for the last 30 seconds
+# /camera/{name}/bitrate - average bitrate for the last 30 seconds. Seems that it's not reported when ffmpeg writes
+#                          into a file (-1)
+# /camera/{name}/outtime - amount of video time has written by ffmpeg (in seconds)
+# /camera/{name}/dupframes - amount of duplicate frames received
+# /camera/{name}/dropframes - amunt of frames dropped
+
+
+# Default camera settings.
+# If a camera misses some setting, its value is being taken from the "defaults" section.
+# For instance: there is no point of setting storage path in each camera section if all cameras have the same storage path.
+# Or, in contrary, you can override default segment time for some specific camera by putting the setting in the camera section.
+[defaults]
+# path to ffmpeg binary
+# I do not recommend using FFMPEG shipped with your OS. It is often outdated and buggy.
+# I recommend using statically built latest version of FFMPEG. You can take it here: https://johnvansickle.com/ffmpeg/
+# or just google "ffmpeg static build"
+ffmpegPath = "/usr/bin/ffmpeg"
+
+# Storage directory
+# 
+storagePath = "/home/stas/cameraleech"
+
+# Length (in seconds) of single video segment
+segmentTime = 600
+
+# ffmpeg log level. Default is repeat+level+error (recommended)
+FfmpegLogLevel = "repeat+level+error"
+
+[cameras]
+    [cameras.cam1]
+    # URL is specified in ffmpeg format:
+    # For example, to retrieve video via RTSP protocol which is supported on every camera I've encountered with ( https://ffmpeg.org/ffmpeg-protocols.html#rtsp )  URL will be something like this:
+    # Also please not URL parameters:
+    # - I strongly recommend always setting up the timeout value. In case of no timeout specified ffmpeg will wait forever if connection issue occurs
+    # - Also, for RTSP protocol I suggest using TCP transport instead of UDP (default). Seems that some cameras declare RTSP over UDP support, but do not actually work with it.
+    url = "rtsp://admin:passwd@172.21.3.13?rtsp_transport=tcp&timeout=60"
+
+    # You can override any parameter from defaults section here
+    # ffmpegPath = "/opt/some_special_ffmpeg"
+    # storagePath = "/storage/some_specific_camera_storage"
+    # segmentTime = 3600
+
+    [cameras.cam2]
+    url = "rtsp://admin:passwd@172.21.3.14?rtsp_transport=tcp&timeout=60"
