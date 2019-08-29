@@ -21,3 +21,8 @@ Tested on Linux. Work on other OSes isn't guaranteed.
 3. Edit the configuration file. 
 4. Put the cameraleech.service into /etc/systemd/system and edit it, changing paths accordingly.
 5. Launch cameraleech service.
+
+## Storage performance
+By default Linux stores written data in so-called "dirty pages" for 3 seconds before forcibly committing them on disk. You can tune dirty pages writeback behavior to keep them in RAM little more in order to accumulate writes. There are 2 sysctl parameters you can tune:
+- `vm.dirty_background_ratio` - amount of available RAM in percent which can be used for dirty pages storage. Linux default is 10% but if the server is used exclusively for records storage, you can set it to 60% or more.
+- `vm.dirty_expire_centisecs` - time limit (in centiseconds, i.e. 1/100 second). Default is 30 seconds, but you can increase it to 5 or 10 minutes. It increases write performace, but if the server stops unexpectedly you'll lose more data.
