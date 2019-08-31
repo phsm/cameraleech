@@ -1,4 +1,4 @@
-# Cameraleech DVR recorder
+# Cameraleech DVR recorder [![Go Report Card](https://goreportcard.com/badge/github.com/phsm/cameraleech)](https://goreportcard.com/report/github.com/phsm/cameraleech)
 Its a simple video recorder leveraging FFMPEG to retrieve video streams from surveillance cameras and store them on disk. 
 In a nutshell, its nothing but a smart ffmpeg launcher
 
