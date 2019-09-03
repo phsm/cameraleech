@@ -24,5 +24,7 @@ Tested on Linux. Work on other OSes isn't guaranteed.
 
 ## Storage performance
 By default Linux stores written data in so-called "dirty pages" for 30 seconds before forcibly committing them on disk. You can tune dirty pages writeback behavior to keep them in RAM little more in order to accumulate writes. There are 2 sysctl parameters you can tune:
-- `vm.dirty_background_ratio` - amount of available RAM in percent which can be used for dirty pages storage. Linux default is 10% but if the server is used exclusively for records storage, you can set it to 60% or more.
-- `vm.dirty_expire_centisecs` - time limit (in centiseconds, i.e. 1/100 second). Default is 30 seconds, but you can increase it to 5 or 10 minutes. It increases write performace, but if the server stops unexpectedly you'll lose more data.
+- `sysctl -w vm.dirty_ratio=80` - percentage of your RAM which can be left unwritten to disk.
+- `sysctl -w vm.dirty_background_ratio=50` - percentage of yout RAM when background writer have to kick in and start writes to disk. Make it way above the value you see in `/proc/meminfo|grep Dirty` so that it doesn't interefere with dirty_expire_centisecs explained below
+- `sysctl -w vm.dirty_expire_centisecs=$(( 10*60*100 ))` - allow page to be left dirty no longer than 10 mins. If unwritten page stays longer than time set here, kernel starts writing it out.
+_The sysctl parameters descriptions are borrowed [here](https://github.com/lomik/go-carbon#os-tuning)_
