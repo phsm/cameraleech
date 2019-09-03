@@ -27,4 +27,5 @@ By default Linux stores written data in so-called "dirty pages" for 30 seconds b
 - `sysctl -w vm.dirty_ratio=80` - percentage of your RAM which can be left unwritten to disk.
 - `sysctl -w vm.dirty_background_ratio=50` - percentage of yout RAM when background writer have to kick in and start writes to disk. Make it way above the value you see in `/proc/meminfo|grep Dirty` so that it doesn't interefere with dirty_expire_centisecs explained below
 - `sysctl -w vm.dirty_expire_centisecs=$(( 10*60*100 ))` - allow page to be left dirty no longer than 10 mins. If unwritten page stays longer than time set here, kernel starts writing it out.
+
 _The sysctl parameters descriptions are borrowed [here](https://github.com/lomik/go-carbon#os-tuning)_
