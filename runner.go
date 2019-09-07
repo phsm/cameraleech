@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -58,12 +59,24 @@ func (l *leech) Start() error {
 	var err error
 	l.setStopEverythingValue(false)
 
+	inputArgs := regexp.MustCompile("\\s+").Split(l.Config.InputOptions, -1)
 	filePath := fmt.Sprintf("%s/%s/%%Y-%%m-%%d/%%Y-%%m-%%d_%%H-%%M-%%S.mkv", l.Config.StoragePath, l.Config.Name)
-	ffmpegArgs = make([]string, 0, 10)
+	ffmpegArgs = make([]string, 0, 30)
 
 	log.Debugf("Stream %s: Assembling ffmpeg command", l.Config.Name)
 	ffmpegArgs = append(ffmpegArgs, "-hide_banner", "-nostdin", "-nostats", "-progress", "pipe:1",
-		"-loglevel", l.Config.FfmpegLogLevel, "-i", l.Config.URL, "-codec", "copy",
+		"-loglevel", l.Config.FfmpegLogLevel)
+
+	if len(inputArgs) > 0 {
+		for _, i := range inputArgs {
+			if i == "" {
+				continue
+			}
+			ffmpegArgs = append(ffmpegArgs, i)
+		}
+	}
+
+	ffmpegArgs = append(ffmpegArgs, "-i", l.Config.URL, "-codec", "copy",
 		"-f", "segment", "-segment_time", fmt.Sprint(l.Config.SegmentTime), "-reset_timestamps", "1",
 		"-segment_atclocktime", "1", "-strftime", "1", filePath)
 

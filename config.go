@@ -34,6 +34,7 @@ type cameraConfig struct {
 	FfmpegLogLevel string
 	StoragePath    string
 	SegmentTime    int
+	InputOptions   string
 	URL            string
 }
 
@@ -188,6 +189,10 @@ func readConfig(filePath string) error {
 
 		if camConfig.URL == "" {
 			return fmt.Errorf("You have to specify URL for camera %s", camConfig.Name)
+		}
+
+		if camConfig.InputOptions == "" {
+			camConfig.InputOptions = config.Defaults.InputOptions
 		}
 
 		config.Cameras[camName] = camConfig

@@ -48,14 +48,22 @@ segmentTime = 600
 # ffmpeg log level. Default is repeat+level+error (recommended)
 FfmpegLogLevel = "repeat+level+error"
 
+# Additional input options for ffmpeg (are put before ffmpeg -i argument)
+# For example you can tune RTSP parameters here:
+# - RTSP transport TCP mode. Many cameras don't work with RTSP UDP transport
+#   properly giving image artifacts (but support it though). I suggest forcing
+#   TCP transport
+# - Socket i/o timeout (stimeout parameter). I/O timeout (please note its in microseconds, 
+#   i.e 1/1000000 of second) after which ffmpeg will exit with an error (and be restarted).
+InputOptions = "-stimeout 60000000 -rtsp_transport tcp"
+
 [cameras]
     [cameras.cam1]
     # URL is specified in ffmpeg format:
-    # For example, to retrieve video via RTSP protocol which is supported on every camera I've encountered with ( https://ffmpeg.org/ffmpeg-protocols.html#rtsp )  URL will be something like this:
-    # Also please not URL parameters:
-    # - I strongly recommend always setting up the timeout value. In case of no timeout specified ffmpeg will wait forever if connection issue occurs
-    # - Also, for RTSP protocol I suggest using TCP transport instead of UDP (default). Seems that some cameras declare RTSP over UDP support, but do not actually work with it.
-    url = "rtsp://admin:passwd@172.21.3.13?rtsp_transport=tcp&timeout=60"
+    # For example, to retrieve video via RTSP protocol which is supported 
+    # on every camera I've encountered with ( https://ffmpeg.org/ffmpeg-protocols.html#rtsp )
+    # URL will be something like this:
+    url = "rtsp://admin:passwd@172.21.3.13"
 
     # You can override any parameter from defaults section here
     # ffmpegPath = "/opt/some_special_ffmpeg"
@@ -63,4 +71,4 @@ FfmpegLogLevel = "repeat+level+error"
     # segmentTime = 3600
 
     [cameras.cam2]
-    url = "rtsp://admin:passwd@172.21.3.14?rtsp_transport=tcp&timeout=60"
+    url = "rtsp://admin:passwd@172.21.3.14"
